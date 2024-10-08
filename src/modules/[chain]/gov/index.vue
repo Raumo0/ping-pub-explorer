@@ -8,7 +8,7 @@ import { PageRequest } from '@/types';
 const tab = ref('2');
 const store = useGovStore();
 const pageRequest = ref(new PageRequest())
-
+console.log(store.proposals)
 onMounted(() => {
     store.fetchProposals('2').then((x) => {
         if (x?.proposals?.length === 0) {
@@ -17,10 +17,11 @@ onMounted(() => {
         }
         store.fetchProposals('3');
         store.fetchProposals('4');
+        store.fetchProposals('5');
     });
 });
 
-const changeTab = (val: '2' | '3' | '4') => {
+const changeTab = (val: '2' | '3' | '4'|  '5') => {
     tab.value = val;
 };
 
@@ -37,6 +38,8 @@ function page(p: number) {
             <a class="tab text-gray-400 uppercase" :class="{ 'tab-active': tab === '3' }" @click="changeTab('3')">{{ $t('gov.passed') }}</a>
             <a class="tab text-gray-400 uppercase" :class="{ 'tab-active': tab === '4' }"
                 @click="changeTab('4')">{{ $t('gov.rejected') }}</a>
+          <a class="tab text-gray-400 uppercase" :class="{ 'tab-active': tab === '5' }" @click="changeTab('5')">{{ $t('Failed') }}</a>
+
         </div>
         <ProposalListItem :proposals="store?.proposals[tab]" />
         <PaginationBar :total="store?.proposals[tab]?.pagination?.total" :limit="pageRequest.limit" :callback="page" />
